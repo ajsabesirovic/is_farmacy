@@ -69,8 +69,8 @@ class KorisnikController extends Controller
             'password' => 'required|string|min:8|confirmed',
             'tip' => 'required|in:' . implode(',', UserType::values()),
             'apoteka_id' => 'nullable|exists:apoteke,id',
-            'licenca' => 'required_if:tip,F|string|max:50',
-            'jmbg' => 'required_if:tip,R|string|size:13',
+            'licenca' => 'nullable|required_if:tip,F|string|max:50',
+            'jmbg' => 'nullable|required_if:tip,R|string|size:13',
         ]);
 
         DB::transaction(function () use ($validated) {
