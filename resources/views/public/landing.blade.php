@@ -18,7 +18,7 @@
         }
     </style>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand" href="{{ route('home') }}">
@@ -32,6 +32,9 @@
                 @else
                     <a class="nav-link" href="{{ route('login') }}">
                         <i class="bi bi-box-arrow-in-right"></i> Prijava
+                    </a>
+                    <a class="nav-link" href="{{ route('register') }}">
+                        <i class="bi bi-person-plus"></i> Registracija
                     </a>
                 @endauth
             </div>
@@ -50,8 +53,11 @@
                     <i class="bi bi-speedometer2"></i> Dashboard
                 </a>
             @else
-                <a href="{{ route('login') }}" class="btn btn-light btn-lg">
+                <a href="{{ route('login') }}" class="btn btn-light btn-lg me-3">
                     <i class="bi bi-box-arrow-in-right"></i> Prijavite se
+                </a>
+                <a href="{{ route('register') }}" class="btn btn-outline-light btn-lg">
+                    <i class="bi bi-person-plus"></i> Registrujte se
                 </a>
             @endauth
         </div>
@@ -77,7 +83,7 @@
         </div>
     </main>
 
-    <footer class="bg-light py-4 mt-5">
+    <footer class="bg-light py-4 mt-auto">
         <div class="container text-center text-muted">
             <p class="mb-0">&copy; {{ date('Y') }} Informacioni sistem udruzenih apoteka</p>
         </div>

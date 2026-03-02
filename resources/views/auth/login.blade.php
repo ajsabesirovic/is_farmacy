@@ -44,6 +44,11 @@
                 <i class="bi bi-box-arrow-in-right"></i> Prijavi se
             </button>
         </form>
+
+        <div class="text-center mt-3">
+            <span class="text-muted">Nemate nalog?</span>
+            <a href="{{ route('register') }}">Registrujte se</a>
+        </div>
     </div>
 </div>
 
