@@ -52,9 +52,6 @@ class PrescriptionService
                      ->first();
     }
 
-    /**
-     * Traži recept po broju i JMBG-u pacijenta (sigurnija pretraga)
-     */
     public function findByNumberAndJmbg(string $brojRecepta, string $jmbg): ?Recept
     {
         return Recept::with('lekovi')
@@ -63,9 +60,6 @@ class PrescriptionService
                      ->first();
     }
 
-    /**
-     * Validira recept i vraća informacije o preostalim količinama
-     */
     public function validateForSaleWithQuantities(string $brojRecepta, string $jmbg): array
     {
         $recept = $this->findByNumberAndJmbg($brojRecepta, $jmbg);
@@ -88,7 +82,6 @@ class PrescriptionService
             throw new \Exception("Recept je istekao.");
         }
 
-        // Pripremi informacije o lekovima sa preostalim količinama
         $lekoviInfo = [];
         foreach ($recept->lekovi as $lek) {
             $propisano = $lek->pivot->kolicina;
@@ -119,9 +112,6 @@ class PrescriptionService
         ];
     }
 
-    /**
-     * Ažurira izdatu količinu leka na receptu
-     */
     public function updateDispensedQuantity(int $receptId, int $lekId, int $izdataKolicina): void
     {
         $recept = Recept::with('lekovi')->findOrFail($receptId);
@@ -142,12 +132,10 @@ class PrescriptionService
             );
         }
 
-        // Ažuriraj izdatu količinu
         $recept->lekovi()->updateExistingPivot($lekId, [
             'izdata_kolicina' => $novoUkupno,
         ]);
 
-        // Ako su svi lekovi izdati, označi recept kao realizovan
         $recept->refresh();
         if ($recept->isFullyDispensed()) {
             $recept->status = PrescriptionStatus::REALIZOVAN;

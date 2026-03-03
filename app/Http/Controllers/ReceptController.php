@@ -20,7 +20,6 @@ class ReceptController extends Controller
 
     public function index(Request $request)
     {
-        // Auto-expire prescriptions that have passed their validity date
         $this->prescriptionService->checkAndUpdateExpired();
 
         $query = Recept::with(['lekovi', 'lekar']);

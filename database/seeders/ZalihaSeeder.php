@@ -16,13 +16,10 @@ class ZalihaSeeder extends Seeder
             16 => 520, 17 => 680, 18 => 420, 19 => 350, 20 => 890,
         ];
 
-        // Za svaku apoteku i svaki lek
         for ($apotekaId = 1; $apotekaId <= 5; $apotekaId++) {
             for ($lekId = 1; $lekId <= 20; $lekId++) {
-                // Nasumicna kolicina, neke apoteke imaju niske zalihe
                 $kolicina = rand(0, 100);
 
-                // Neke kombinacije imaju niske zalihe
                 if (($apotekaId + $lekId) % 7 == 0) {
                     $kolicina = rand(0, 5);
                 }

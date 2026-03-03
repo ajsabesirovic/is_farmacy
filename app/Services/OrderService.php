@@ -56,7 +56,6 @@ class OrderService
     {
         $narudzbenica = Narudzbenica::findOrFail($narudzbenicaId);
 
-        // Validacija prelaza statusa
         $this->validateStatusTransition($narudzbenica->status, $status);
 
         $narudzbenica->status = $status;
@@ -79,7 +78,6 @@ class OrderService
                 throw new \Exception("Narudžbenica mora biti poslata pre isporuke. Trenutni status: " . $narudzbenica->status->label());
             }
 
-            // Ažuriranje zaliha
             foreach ($narudzbenica->stavke as $stavka) {
                 $this->inventoryService->increaseStock(
                     $narudzbenica->apoteka_id,

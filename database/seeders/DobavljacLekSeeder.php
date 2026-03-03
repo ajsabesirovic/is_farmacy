@@ -9,7 +9,6 @@ class DobavljacLekSeeder extends Seeder
 {
     public function run(): void
     {
-        // Hemofarm (ID 1) - lekovi 1, 5, 6, 8, 9, 11, 13, 14, 16, 18
         $hemofarmLekovi = [1, 5, 6, 8, 9, 11, 13, 14, 16, 18];
         foreach ($hemofarmLekovi as $lekId) {
             DobavljacLek::create([
@@ -19,7 +18,6 @@ class DobavljacLekSeeder extends Seeder
             ]);
         }
 
-        // Galenika (ID 2) - lekovi 2, 4, 12, 15, 17, 19, 20
         $galenikaLekovi = [2, 4, 12, 15, 17, 19, 20];
         foreach ($galenikaLekovi as $lekId) {
             DobavljacLek::create([
@@ -29,7 +27,6 @@ class DobavljacLekSeeder extends Seeder
             ]);
         }
 
-        // Phoenix (ID 3) - svi lekovi
         for ($lekId = 1; $lekId <= 20; $lekId++) {
             DobavljacLek::create([
                 'dobavljac_id' => 3,
@@ -38,7 +35,6 @@ class DobavljacLekSeeder extends Seeder
             ]);
         }
 
-        // Pharmanova (ID 4) - lekovi bez recepta
         for ($lekId = 1; $lekId <= 10; $lekId++) {
             DobavljacLek::create([
                 'dobavljac_id' => 4,

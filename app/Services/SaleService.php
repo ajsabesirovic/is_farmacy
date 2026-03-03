@@ -25,7 +25,6 @@ class SaleService
     public function createSale(array $data, array $items): Prodaja
     {
         return DB::transaction(function () use ($data, $items) {
-            // Provera da li ima lekova na recept
             $lekIds = array_column($items, 'lek_id');
             $lekoviNaRecept = Lek::whereIn('id', $lekIds)
                                  ->where('na_recept', true)
@@ -36,12 +35,10 @@ class SaleService
                 throw new \Exception("Sledeći lekovi se izdaju na recept i zahtevaju validan recept: {$nazivi}");
             }
 
-            // Validacija recepta i provera količina ako postoji recept
             $recept = null;
             if (!empty($data['recept_id'])) {
                 $recept = $this->prescriptionService->validateForSale($data['recept_id']);
 
-                // Proveri da li se ne izdaje više nego što je propisano
                 foreach ($items as $item) {
                     $lek = Lek::find($item['lek_id']);
                     if ($lek && $lek->na_recept) {
@@ -61,7 +58,6 @@ class SaleService
                 }
             }
 
-            // Provera dostupnosti zaliha
             foreach ($items as $item) {
                 $zaliha = Zaliha::where('apoteka_id', $data['apoteka_id'])
                                 ->where('lek_id', $item['lek_id'])
@@ -76,7 +72,6 @@ class SaleService
                 }
             }
 
-            // Kreiranje prodaje
             $prodaja = Prodaja::create([
                 'datum' => now()->toDateString(),
                 'vreme' => now()->toTimeString(),
@@ -89,7 +84,6 @@ class SaleService
 
             $ukupanIznos = 0;
 
-            // Kreiranje stavki i ažuriranje zaliha
             foreach ($items as $index => $item) {
                 $zaliha = Zaliha::where('apoteka_id', $data['apoteka_id'])
                                 ->where('lek_id', $item['lek_id'])
@@ -107,7 +101,6 @@ class SaleService
                     'popust' => $popust,
                 ]);
 
-                // Smanjenje zaliha
                 $this->inventoryService->decreaseStock(
                     $data['apoteka_id'],
                     $item['lek_id'],
@@ -116,7 +109,6 @@ class SaleService
 
                 $ukupanIznos += ($item['kolicina'] * $cena) - $popust;
 
-                // Ažuriraj izdatu količinu na receptu (ako je lek na recept)
                 if ($recept) {
                     $lek = Lek::find($item['lek_id']);
                     if ($lek && $lek->na_recept) {
@@ -129,7 +121,6 @@ class SaleService
                 }
             }
 
-            // Ažuriranje ukupnog iznosa
             $prodaja->ukupan_iznos = $ukupanIznos;
             $prodaja->save();
 

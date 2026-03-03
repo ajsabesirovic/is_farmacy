@@ -12,7 +12,6 @@ class LekController extends Controller
         $user = $request->user();
         $query = Lek::query();
 
-        // Farmaceut i Admin apoteke vide samo lekove iz svoje apoteke
         if (!$user->isCentralniAdmin()) {
             $query->whereHas('zalihe', function ($q) use ($user) {
                 $q->where('apoteka_id', $user->apoteka_id);

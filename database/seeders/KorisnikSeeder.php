@@ -15,7 +15,6 @@ class KorisnikSeeder extends Seeder
 {
     public function run(): void
     {
-        // Centralni admin
         $admin = Korisnik::create([
             'ime' => 'Admin',
             'prezime' => 'Sistem',
@@ -29,7 +28,6 @@ class KorisnikSeeder extends Seeder
             'id' => $admin->id,
         ]);
 
-        // Registrovani korisnik
         $regKorisnik = Korisnik::create([
             'ime' => 'Ajsa',
             'prezime' => 'Besirovic',
@@ -44,9 +42,7 @@ class KorisnikSeeder extends Seeder
             'jmbg' => '0101000000001',
         ]);
 
-        // Admini i farmaceuti za svaku apoteku
         for ($apotekaId = 1; $apotekaId <= 5; $apotekaId++) {
-            // Admin apoteke
             $adminApoteke = Korisnik::create([
                 'ime' => 'Admin',
                 'prezime' => "Apoteka{$apotekaId}",
@@ -60,7 +56,6 @@ class KorisnikSeeder extends Seeder
                 'id' => $adminApoteke->id,
             ]);
 
-            // 3 farmaceuta po apoteci
             for ($f = 1; $f <= 3; $f++) {
                 $farmaceut = Korisnik::create([
                     'ime' => "Farmaceut{$f}",

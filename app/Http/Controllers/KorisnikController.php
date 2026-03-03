@@ -84,7 +84,6 @@ class KorisnikController extends Controller
                 'aktivan' => true,
             ]);
 
-            // Create subtype record
             match(UserType::from($validated['tip'])) {
                 UserType::FARMACEUT => Farmaceut::create([
                     'id' => $korisnik->id,
@@ -132,7 +131,6 @@ class KorisnikController extends Controller
             'licenca' => 'nullable|string|max:50',
         ];
 
-        // Dodaj validaciju lozinke samo ako je popunjena
         $password = $request->input('password');
         if ($password !== null && $password !== '') {
             $rules['password'] = 'required|string|min:8|confirmed';
@@ -152,7 +150,6 @@ class KorisnikController extends Controller
 
         $korisnik->save();
 
-        // Ažuriraj podatke farmaceuta ako postoje
         if ($korisnik->isFarmaceut() && $korisnik->farmaceut && isset($validated['licenca'])) {
             $korisnik->farmaceut->licenca = $validated['licenca'];
             $korisnik->farmaceut->save();

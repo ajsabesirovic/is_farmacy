@@ -56,7 +56,6 @@ class NarudzbenicaController extends Controller
         $preselectedDobavljacId = null;
         if ($request->filled('lek_id')) {
             $preselectedLek = \App\Models\Lek::find($request->input('lek_id'));
-            // Find first active supplier that carries this lek
             $dobavljacLek = DobavljacLek::where('lek_id', $request->input('lek_id'))
                                         ->first();
             if ($dobavljacLek) {
@@ -80,14 +79,12 @@ class NarudzbenicaController extends Controller
             'stavke.*.cena_po_komadu' => 'required|numeric|min:0',
         ];
 
-        // Centralni admin mora da izabere apoteku
         if ($user->isCentralniAdmin()) {
             $rules['apoteka_id'] = 'required|exists:apoteke,id';
         }
 
         $validated = $request->validate($rules);
 
-        // Odredi apoteka_id
         $apotekaId = $user->isCentralniAdmin()
             ? $validated['apoteka_id']
             : $user->apoteka_id;

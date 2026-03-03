@@ -141,11 +141,6 @@ return [
     'ulid' => 'Polje :attribute mora biti validan ULID.',
     'uuid' => 'Polje :attribute mora biti validan UUID.',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Custom Validation Attribute Names
-    |--------------------------------------------------------------------------
-    */
 
     'attributes' => [
         'ime' => 'ime',

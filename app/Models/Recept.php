@@ -44,9 +44,6 @@ class Recept extends Model
                     ->withPivot('kolicina', 'izdata_kolicina', 'doziranje');
     }
 
-    /**
-     * Vraća preostalu količinu leka za izdavanje
-     */
     public function getPreostalaKolicina(int $lekId): int
     {
         $lek = $this->lekovi()->where('lek_id', $lekId)->first();
@@ -56,9 +53,6 @@ class Recept extends Model
         return max(0, $lek->pivot->kolicina - $lek->pivot->izdata_kolicina);
     }
 
-    /**
-     * Proverava da li je recept potpuno realizovan (svi lekovi izdati)
-     */
     public function isFullyDispensed(): bool
     {
         foreach ($this->lekovi as $lek) {
@@ -69,9 +63,6 @@ class Recept extends Model
         return true;
     }
 
-    /**
-     * Proverava da li je recept delimično realizovan
-     */
     public function isPartiallyDispensed(): bool
     {
         $hasDispensed = false;
